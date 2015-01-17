@@ -17,18 +17,38 @@
             text-align: center;
         }
 
-        .form-group:first-child input {
-            width: 25em;
-        }
-
         #results {
             margin: 0 auto;
-            width: 60%;
+            width: 40%;
             text-align: center; 
         }
 
+        @media (max-width: 768px) {
+            #results {
+                width: 70%;
+            }
+
+            .form-group {
+                padding: 0 3em;
+            }
+
+            .form-group input:nth-child(2) {
+                margin: 0.25em 0;
+            }
+            
+            .form-group button {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 768px) {        
+            .form-group input:first-child {
+                width: 25em;
+            }
+        }
+
         #results img {
-            width: 60%;
+            width: 100%;
             border: 4px solid #bdc3c7;
             border-radius: 6px;
             margin-bottom: 1em; 
@@ -66,11 +86,9 @@
       <form action="" class="form-inline">
         <div class="form-group">
             <input type="text" class="form-control" id="youtubeLink" placeholder="YouTube Link">
+            <input type="text" class="form-control" id="searchTerm" placeholder="Search">
+            <button type="submit" class="btn btn-primary">Search</button>
         </div>
-        <div class="form-group">
-          <input type="text" class="form-control" id="searchTerm" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-primary">Search</button>
       </form>
       <div id="results">
         <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
