@@ -1,0 +1,1 @@
+ffmpeg -i test.mp4 -r 2 -s 1280x720 -f image2 foo-%03d.jpeg
