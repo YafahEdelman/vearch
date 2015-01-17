@@ -48,6 +48,7 @@ function get_video(url, search_string, socket) {
 			});
 		} else {
 			console.log("Download failed.");
+                        socket.emit("data.download.failed");
 		}
 	});
 }

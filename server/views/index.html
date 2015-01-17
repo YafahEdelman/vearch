@@ -158,6 +158,10 @@
         display_error("You must provide both a link and search terms.");
       });
 
+      socket.on("data.download.failed", function() {
+        display_error("The video link was malformed or the video was too long.");
+      });
+
       socket.on("data.malformed", function() {
         display_error("I'm too old for this stuff.");
       });
