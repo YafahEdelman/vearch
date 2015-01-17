@@ -1,2 +1,4 @@
+target/
+caffe/
 server/node_modules/
-image-search/caffe/
+*.pyc
