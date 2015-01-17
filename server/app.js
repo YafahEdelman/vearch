@@ -69,7 +69,6 @@ function analyze(id, search_string, socket) {
     } else
       socket.emit("video_searched", {video_id: id, second_found: best_frame_num});
     }
-    // Do stuff with data.
   });
 
 }
