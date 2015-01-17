@@ -1,4 +1,5 @@
 target/
 caffe/
 server/node_modules/
+server/videos/
 *.pyc

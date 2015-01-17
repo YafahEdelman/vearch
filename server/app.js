@@ -3,6 +3,8 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var python = require('python').shell;
+var exec   = require('child_process').exec;
+var fs = require('fs');
 
 app.use(express.static(__dirname + '/views'));
 
@@ -15,8 +17,42 @@ io.on('connection', function(socket) {
     }
     console.log("Whee a link " + link);
     console.log("Whee some terms " + terms);
+    get_video(link);
   });
 });
+
+function get_video(url) {
+	var id = url.slice(url.indexOf("v=") + 2);
+	if (id.indexOf("&") >= 0) {
+		id = id.slice(0, id.indexOf("&"));
+	}
+	if (!fs.existsSync("videos")) {
+		exec("mkdir videos");
+	}
+	if (fs.existsSync("videos/" + id)) {
+		analyze(id);
+		console.log('Video cached.')
+		return;
+	}
+	exec("youtube-dl --max-filesize 40m -f 18 --id https://www.youtube.com/watch?v=" + id, function () {
+		if (fs.existsSync(id + ".mp4")) {
+			console.log("Downloaded video.");
+			exec("mkdir videos/" + id);
+			exec("avconv -i " + id + ".mp4 -r 1 -s 640x360 -f image2 videos/" + id + "/%03d.jpeg", function() {
+				console.log("Split video into frames.");
+				exec("rm " + id + ".mp4");
+				analyze(id);
+				return;
+			});
+		} else {
+			console.log("Download failed.");
+		}
+	});
+}
+
+function analyze(id) {
+
+}
 
 function get_data(folder_name, words_to_search, callback) {
   python( 'image_search.word_probs("' + folder_name + '", "' + words_to_search + '")', function(err, data){
