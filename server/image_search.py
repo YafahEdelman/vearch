@@ -5,6 +5,8 @@ caffe_root = "../caffe"
 path.insert(0, caffe_root + '/python')
 from caffe import Classifier,set_mode_cpu,set_mode_gpu
 from caffe.io import load_image
+from os import listdir
+from os.path import join
 word_data_file_name = caffe_root+"/data/ilsvrc12/synset_words.txt"
 word_data_file = open(word_data_file_name)
 word_data = []
@@ -16,7 +18,8 @@ word_data_file.close()
 
 # Set the right path to your model definition file, pretrained model weights,
 # and the image you would like to classify.
-def word_probs(image_names, word_to_search, gpu_on = False, max_to_look = 50):
+def word_probs(folder_name, word_to_search, gpu_on = False, max_to_look = 50):
+    image_names = [join(folder_name,file_name) for file in listidr(folder_name)]
     MODEL_FILE = caffe_root + '/models/bvlc_reference_caffenet/deploy.prototxt'
     PRETRAINED = caffe_root + '/models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel'
     #set_phase_test()
