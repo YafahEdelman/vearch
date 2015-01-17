@@ -18,5 +18,6 @@ cp Makefile.config.example Makefile.config
 make pycaffe
 make all
 make test
+make runtest
 ./scripts/download_model_binary.py models/bvlc_reference_caffenet
-./data/ilsvrc12/get_ilsvrc_aux.sh
+sh ./data/ilsvrc12/get_ilsvrc_aux.sh
