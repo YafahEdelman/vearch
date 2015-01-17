@@ -10,18 +10,19 @@ app.use(express.static(__dirname + '/views'));
 
 io.on('connection', function(socket) {
   console.log("Connection opened.");
-  socket.on("submitted", function(link, terms) {
-    if (link == "" || terms == "") {
+  socket.on("submitted", function(link, search_string) {
+    search_string = search_string.replace(/[^a-zA-Z0-9 ]/g,"");
+    if (link == "" || search_string == "") {
       io.emit("missing data");
       return;
     }
     console.log("Got link: " + link);
-    console.log("Got search terms: " + terms);
-    get_video(link);
+    console.log("Got search terms: " + search_string);
+    get_video(link, search_string, socket);
   });
 });
 
-function get_video(url) {
+function get_video(url, search_string, socket) {
 	var id = url.slice(url.indexOf("v=") + 2);
 	if (id.indexOf("&") >= 0) {
 		id = id.slice(0, id.indexOf("&"));
@@ -41,7 +42,7 @@ function get_video(url) {
 			exec("avconv -i " + id + ".mp4 -r 1 -s 640x360 -f image2 videos/" + id + "/%03d.jpeg", function() {
 				console.log("Split video into frames.");
 				exec("rm " + id + ".mp4");
-				analyze(id);
+				analyze(id, search_string, socket);
 				return;
 			});
 		} else {
@@ -50,7 +51,26 @@ function get_video(url) {
 	});
 }
 
-function analyze(id) {
+function analyze(id, search_string, socket) {
+  get_data(id,search_string, function(data){
+    // If no frames what happens?
+    var best_image_name = ".jpeg";
+    var prob = -1;
+    for (video_name in data) {
+      var video_prob = data[video_name];
+      if (video_prob > prob) {
+        prob = video_prob;
+        best_image_name = video_name
+      }
+    }
+    var best_frame_num = parseInt(best_image_name.split(0,-5));
+    if (best_frame_num === NaN){
+      // Make it return an error here
+    } else
+      socket.emit("video_searched", {video_id: id, second_found: best_frame_num});
+    }
+    // Do stuff with data.
+  });
 
 }
 
