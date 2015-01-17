@@ -11,7 +11,7 @@ app.use(express.static(__dirname + '/views'));
 io.on('connection', function(socket) {
   console.log("Connection opened.");
   socket.on("data.submit", function(link, search_string) {
-    search_string = search_string.replace(/[^a-zA-Z0-9 ]/g,"");
+    search_string = search_string.replace(/[^a-zA-Z0-9 ]/g, "");
     if (link == "" || search_string == "") {
       io.emit("data.missing");
       return;
@@ -32,7 +32,7 @@ function get_video(url, search_string, socket) {
 		exec("mkdir videos");
 	}
 	if (fs.existsSync("videos/" + id)) {
-		analyze(id);
+		analyze(id, search_string, socket);
 		console.log('Video cached.')
 		return;
 	}
@@ -54,21 +54,19 @@ function get_video(url, search_string, socket) {
 }
 
 function analyze(id, search_string, socket) {
-  get_data(id,search_string, function(data){
+  get_data(id, search_string, function(data){
     var best_image_name = ".jpeg";
     var prob = -1;
-    for (video_name in data) {
-      var video_prob = data[video_name];
-      if (video_prob > prob) {
-        prob = video_prob;
-        best_image_name = video_name
-      }
-    }
-    var best_frame_num = parseInt(best_image_name.split(0, -5));
-    if (best_frame_num === NaN){
-      socket.emit("data.malformed");    
+    var frames = Object.keys(data);
+    frames.sort( function(a, b){
+      return data[a]-data[b];
+    });
+    best_few = frames.slice(0, 5).map(function(i){ return parseInt(i.split(0, -5));});
+
+    if (best_few[0] === NaN){
+      socket.emit("data.malformed");
     } else {
-      socket.emit("video_searched", {video_id: id, second_found: best_frame_num});
+      socket.emit("video_searched", {video_id: id, best: best_few});
     }
   });
 }
