@@ -1,2 +1,3 @@
 target/
-image-search/caffe/
+image_search/caffe/
+caffe/
