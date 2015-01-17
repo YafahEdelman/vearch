@@ -2,12 +2,19 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var python = require('python').shell;
 
 app.use(express.static(__dirname + '/views'));
 
 io.on('connection', function(socket) {
-
+  console.log("a user has joined");
+  socket.on("link submitted", function(link, terms) {
+    if (link == "" || terms == "") {
+      io.emit("missing link or terms");
+      return;
+    }
+    console.log("Whee a link " + link);
+    console.log("Whee some terms " + terms);
+  });
 });
 
 function get_data(folder_name, words_to_search, callback) {
