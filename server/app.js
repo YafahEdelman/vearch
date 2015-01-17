@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var python = require('node-python');
+var python = require('python');
 
 app.use(express.static(__dirname + '/views'));
 
@@ -28,7 +28,7 @@ function get_data(folder_name, words_to_search, callback) {
       var image_data = each_image_data[i];
       var split_image_data = image_data.split(" ");
       var file_name = split_image_data[0];
-      var prob = parseFloat(split_image_data[1]);// BAD BAD BAD
+      var prob = parseFloat(split_image_data[1]);
       console.log(prob, split_image_data[1], file_name);
       if (prob === NaN ) {
         /* Some weird "START COMMAND\n" stuff was at the start of the data
@@ -43,6 +43,7 @@ function get_data(folder_name, words_to_search, callback) {
     callback(final_data);
   });
 }
+
 python('import image_search',function(err,data){
   if(err)throw err;
   // get_data("../caffe/examples/images", "cat", console.log);
@@ -50,6 +51,3 @@ python('import image_search',function(err,data){
     console.log('listening on *:3000');
   });
 });
-
-// interop with the python program
-var image_search = python.import('image_search.image_search');
