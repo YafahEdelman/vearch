@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 server/node_modules
+=======
+target/
+image-search/caffe/
+>>>>>>> 51ddb70a5ed2d632c4df0408105c1b4cfe145c78
