@@ -45,7 +45,7 @@ function get_data(folder_name, words_to_search, callback) {
 }
 python('import image_search',function(err,data){
   if(err)throw err;
-  get_data("../caffe/examples/images", "cat",console.log);
+  // get_data("../caffe/examples/images", "cat",console.log);
   http.listen(3000, function() {
     console.log('listening on *:3000');
   });
