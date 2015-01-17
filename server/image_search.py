@@ -34,10 +34,8 @@ def word_probs(directory, search_string, gpu_on = False, max_to_look = 50):
 
     # ret = []
     for path, prediction in zip(paths, predictions):
-        a = sorted(enumerate(prediction), key = lambda x:-x[1])
-        a = a[:max_to_look]
         prob = 0
-        for thoughts in map(lambda i:(word_data[i[0]], i[1]), a):
+        for thoughts in map(lambda i:(word_data[i[0]], i[1]), enumerate(prediction)):
             words, chance = thoughts
             for needle in needles:
                 if needle in words:
