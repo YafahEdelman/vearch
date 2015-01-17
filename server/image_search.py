@@ -1,6 +1,5 @@
 from numpy import load
 
-
 from sys import path
 caffe_root = "../caffe"
 path.insert(0, caffe_root + '/python')

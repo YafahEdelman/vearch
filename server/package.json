@@ -5,6 +5,7 @@
   "dependencies": {
     "debug": "^2.1.1",
     "express": "^4.11.0",
+    "node-python": "0.0.4",
     "socket.io": "^1.2.1"
   }
 }
