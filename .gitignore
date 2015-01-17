@@ -1,3 +1,4 @@
 target/
 caffe/
 server/node_modules/
+*.pyc
