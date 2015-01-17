@@ -116,13 +116,13 @@
       var youtube = $("#youtubeLink");
       var search = $("#searchTerm");
       submit.submit(function() {
-        socket.emit("link submitted", youtube.val(), search.val());
+        socket.emit("submitted", youtube.val(), search.val());
         youtube.val("");
         search.val("");
         return false;
       });
 
-      socket.on("missing link or terms", function() {
+      socket.on("missing data", function() {
         alert("You must provide both a link and search terms.");
       });
     </script>

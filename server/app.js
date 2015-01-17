@@ -9,14 +9,14 @@ var fs = require('fs');
 app.use(express.static(__dirname + '/views'));
 
 io.on('connection', function(socket) {
-  console.log("a user has joined");
-  socket.on("link submitted", function(link, terms) {
+  console.log("Connection opened.");
+  socket.on("submitted", function(link, terms) {
     if (link == "" || terms == "") {
-      io.emit("missing link or terms");
+      io.emit("missing data");
       return;
     }
-    console.log("Whee a link " + link);
-    console.log("Whee some terms " + terms);
+    console.log("Got link: " + link);
+    console.log("Got search terms: " + terms);
     get_video(link);
   });
 });
@@ -78,10 +78,10 @@ function get_data(folder_name, words_to_search, callback) {
   });
 }
 
-python('import image_search',function(err,data){
-  if(err)throw err;
+python('import image_search', function(err, data) {
+  if (err) throw err;
   // get_data("../caffe/examples/images", "cat cycle", console.log);
   http.listen(3000, function() {
-    console.log('listening on *:3000');
+    console.log('Listening on *:3000.');
   });
 });
