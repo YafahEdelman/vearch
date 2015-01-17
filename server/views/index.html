@@ -89,7 +89,7 @@
   </head>
   <body>
     <div id="page">
-      <form action="" id="submit" class="form-inline">
+      <form action="" class="form-inline">
         <div class="form-group">
             <input type="text" class="form-control" id="youtubeLink" placeholder="YouTube Link">
             <input type="text" class="form-control" id="searchTerm" placeholder="Search Term">
@@ -112,7 +112,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io();
-      var submit  = $("#submit");
+      var submit  = $("form");
       var youtube = $("#youtubeLink");
       var search = $("#searchTerm");
       submit.submit(function() {
