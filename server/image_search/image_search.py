@@ -46,4 +46,4 @@ def word_probs(folder_name, word_to_search, gpu_on = False, max_to_look = 50):
         ret.append([prob, name])
     return ret
 def test():
-    print word_probs("../caffe/examples/images","cat")
+    return word_probs("../caffe/examples/images","cat")
