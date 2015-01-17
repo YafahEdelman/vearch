@@ -2,11 +2,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-<<<<<<< HEAD
 var python = require('node-python');
-=======
-//var python = require('node-python');
->>>>>>> cd456e356ca5a6fa7c7f2d979962267b6a05e45f
 
 app.use(express.static(__dirname + '/views'));
 
