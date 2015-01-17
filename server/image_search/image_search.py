@@ -12,38 +12,36 @@ word_data_file = open(word_data_file_name)
 word_data = []
 for i in word_data_file.read().split("\n"):
     if " " in i:
-        word_data.append(i[i.index(" ")+1:])
+        word_data.append(i[i.index(" ") + 1:])
 word_data_file.close()
 MODEL_FILE = caffe_root + '/models/bvlc_reference_caffenet/deploy.prototxt'
 PRETRAINED = caffe_root + '/models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel'
 net = Classifier(MODEL_FILE, PRETRAINED,
-                       mean=load(caffe_root + '/python/caffe/imagenet/ilsvrc_2012_mean.npy'),
-                       channel_swap=(2,1,0),
-                       raw_scale=255,
-                       image_dims=(256, 256))
+                       mean = load(caffe_root + '/python/caffe/imagenet/ilsvrc_2012_mean.npy'),
+                       channel_swap = (2, 1, 0),
+                       raw_scale = 255,
+                       image_dims = (256, 256))
 
-
-# Set the right path to your model definition file, pretrained model weights,
-# and the image you would like to classify.
-def word_probs(folder_name, word_to_search, gpu_on = False, max_to_look = 50):
-    image_names = [join(folder_name,file_name) for file_name in listdir(folder_name)]
-    #set_phase_test()
+def word_probs(directory, needle, gpu_on = False, max_to_look = 50):
+    paths = [join(directory, path) for path in listdir(directory)]
+    # set_phase_test()
     if gpu_on:
         set_mode_gpu()
     else:
         set_mode_cpu()
-    predictions = net.predict(map(load_image, image_names))
+    predictions = net.predict(map(load_image, paths))
 
     ret = []
-    for name,prediction in zip(image_names,predictions):
-        a = sorted(enumerate(prediction), key=lambda x:-x[1])
+    for path, prediction in zip(paths, predictions):
+        a = sorted(enumerate(prediction), key = lambda x:-x[1])
         a = a[:max_to_look]
         prob = 0
         for thoughts in map(lambda i:(word_data[i[0]], i[1]), a):
             words, chance = thoughts
-            if word_to_search in words:
+            if needle in words:
                 prob += chance
-        ret.append([prob, name])
+        ret.append([prob, path])
     return ret
+
 def test():
     return word_probs("../caffe/examples/images","cat")
