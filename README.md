@@ -3,6 +3,8 @@
 
 Setup
 =====
+`sudo pip install youtube_dl`
+
 `sudo apt-get install python-dev`
 
 `npm install`
