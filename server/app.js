@@ -10,12 +10,13 @@ app.use(express.static(__dirname + '/views'));
 
 io.on('connection', function(socket) {
   console.log("Connection opened.");
-  socket.on("submitted", function(link, search_string) {
+  socket.on("data.submit", function(link, search_string) {
     search_string = search_string.replace(/[^a-zA-Z0-9 ]/g,"");
     if (link == "" || search_string == "") {
-      io.emit("missing data");
+      io.emit("data.missing");
       return;
     }
+    io.emit("data.submit.success");
     console.log("Got link: " + link);
     console.log("Got search terms: " + search_string);
     get_video(link, search_string, socket);
@@ -62,18 +63,17 @@ function analyze(id, search_string, socket) {
         best_image_name = video_name
       }
     }
-    var best_frame_num = parseInt(best_image_name.split(0,-5));
+    var best_frame_num = parseInt(best_image_name.split(0, -5));
     if (best_frame_num === NaN){
-      // Make it return an error here
-    } else
+      socket.emit("data.malformed");    
+    } else {
       socket.emit("video_searched", {video_id: id, second_found: best_frame_num});
     }
   });
-
 }
 
 function get_data(folder_name, words_to_search, callback) {
-  python( 'image_search.word_probs("' + folder_name + '", "' + words_to_search + '")', function(err, data){
+  python('image_search.word_probs("' + folder_name + '", "' + words_to_search + '")', function(err, data){
     if (err) throw err;
     each_image_data = data.split("\n").slice(0, -1);
     final_data = {};

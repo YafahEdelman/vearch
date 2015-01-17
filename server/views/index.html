@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <title>Vearch</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/flat-ui.min.css" rel="stylesheet">
     <!--[if lt IE 9]>
@@ -85,10 +85,34 @@
         .invisible {
             opacity: 0 !important;
         }
+
+        #error {
+            position: relative;
+            top: -4em;
+            transition: all 1s ease;
+        }
+
+        .in-place {
+            top: 0 !important;
+            transition: all 1s ease;
+        }
+
+        .centered {
+            text-align: center;
+        }
     </style>
   </head>
   <body>
+    <div id="error">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" aria-label="Close" onClick="$('#error').removeClass('in-place')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Error:</strong> <span class="error-msg">Error message. Beep boop.</span>
+        </div>
+    </div>
     <div id="page">
+      <h1 class="centered">Vearch</h1>
       <form action="" class="form-inline">
         <div class="form-group">
             <input type="text" class="form-control" id="youtubeLink" placeholder="YouTube Link">
@@ -111,19 +135,31 @@
     <script>$('#results img').removeClass('invisible')</script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
+      function display_error(message) {
+        $('#error .error-msg').text(message);
+        $('#error').addClass('in-place');
+      }
+
       var socket = io();
       var submit  = $("form");
       var youtube = $("#youtubeLink");
       var search = $("#searchTerm");
       submit.submit(function() {
-        socket.emit("submitted", youtube.val(), search.val());
-        youtube.val("");
-        search.val("");
+        socket.emit("data.submit", youtube.val(), search.val());
         return false;
       });
 
-      socket.on("missing data", function() {
-        alert("You must provide both a link and search terms.");
+      socket.on("data.submit.success", function() {
+        youtube.val("");
+        search.val("");
+      });
+
+      socket.on("data.missing", function() {
+        display_error("You must provide both a link and search terms.");
+      });
+
+      socket.on("data.malformed", function() {
+        display_error("I'm too old for this stuff.");
       });
     </script>
   </body>
