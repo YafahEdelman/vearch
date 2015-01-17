@@ -53,7 +53,6 @@ function get_video(url, search_string, socket) {
 
 function analyze(id, search_string, socket) {
   get_data(id,search_string, function(data){
-    // If no frames what happens?
     var best_image_name = ".jpeg";
     var prob = -1;
     for (video_name in data) {
