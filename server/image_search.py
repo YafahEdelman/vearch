@@ -22,7 +22,8 @@ net = Classifier(MODEL_FILE, PRETRAINED,
                        raw_scale = 255,
                        image_dims = (256, 256))
 
-def word_probs(directory, needle, gpu_on = False, max_to_look = 50):
+def word_probs(directory, search_string, gpu_on = False, max_to_look = 50):
+    needles = search_string.split(" ")
     paths = [join_paths(directory, path) for path in listdir(directory)]
     # set_phase_test()
     if gpu_on:
@@ -38,8 +39,9 @@ def word_probs(directory, needle, gpu_on = False, max_to_look = 50):
         prob = 0
         for thoughts in map(lambda i:(word_data[i[0]], i[1]), a):
             words, chance = thoughts
-            if needle in words:
-                prob += chance
+            for needle in needles:
+                if needle in words:
+                    prob += chance
         print path, prob
     # return ret
 
