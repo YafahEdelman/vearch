@@ -33,20 +33,23 @@
             border-radius: 6px;
             margin-bottom: 1em; 
             opacity: 1;      
-            transition: border .25s linear, color .25s linear, 
-                        background-color .25s linear, opacity 4s ease-in;
+            transition: border .25s linear, color .25s linear, background-color .25s linear, 
+                        opacity 4s ease-in;
         }
 
         #results img:first-child {
-            transition: opacity 1s ease-in;
+            transition: border .25s linear, color .25s linear, background-color .25s linear, 
+                        opacity 1s ease-in;
         }
 
         #results img:nth-child(2) {
-            transition: opacity 2s ease-in;
+            transition: border .25s linear, color .25s linear, background-color .25s linear, 
+                        opacity 2s ease-in;
         }
 
         #results img:nth-child(3) {
-            transition: opacity 3s ease-in;
+            transition: border .25s linear, color .25s linear, background-color .25s linear, 
+                        opacity 3s ease-in;
         }
 
         #results img:hover {
@@ -56,11 +59,11 @@
         .invisible {
             opacity: 0 !important;
         }
-        </style>
+    </style>
   </head>
   <body>
     <div id="page">
-      <form class="form-inline">
+      <form action="" class="form-inline">
         <div class="form-group">
             <input type="text" class="form-control" id="youtubeLink" placeholder="YouTube Link">
         </div>
@@ -70,21 +73,17 @@
         <button type="submit" class="btn btn-primary">Search</button>
       </form>
       <div id="results">
-          <img src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
-          <img src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
-          <img src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
-          <img src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
-          <img src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
-          <img src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
-          <img src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
+        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
+        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
+        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
+        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
+        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
+        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
+        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>$('#results img').removeClass('invisible')</script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io();
-    </script>
   </body>
 </html>
