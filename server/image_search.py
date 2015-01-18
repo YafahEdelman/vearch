@@ -2,7 +2,8 @@ from numpy import load
 
 from sys import path
 print "Trying without path change."
-from caffe import Classifier, set_mode_gpu
+from caffe import Classifier
+# , set_mode_cpu,set_mode_gpu
 from caffe.io import load_image
 print "Worked without path change."
 
@@ -27,10 +28,10 @@ def word_probs(directory, search_string, gpu_on = False, max_to_look = 50):
     needles = search_string.split(" ")
     paths = [join_paths(directory, path) for path in listdir(directory)]
     # set_phase_test()
-    if gpu_on:
-        set_mode_gpu()
-    else:
-        set_mode_cpu()
+    # if gpu_on:
+    #     set_mode_gpu()
+    # else:
+    #     set_mode_cpu()
     predictions = net.predict(map(load_image, paths))
 
     # ret = []
