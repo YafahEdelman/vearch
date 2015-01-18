@@ -3,3 +3,4 @@ caffe/
 server/node_modules/
 server/videos/
 *.pyc
+ data/bvlc_reference_caffenet.caffemodel
