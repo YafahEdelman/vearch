@@ -100,6 +100,6 @@ python('import image_search', function(err, data) {
   console.log(data);
   console.log(err);
   http.listen(3000, function() {
-    console.log('Listening on *:3000'.);
+    console.log('Listening on *:3000');
   });
 });
