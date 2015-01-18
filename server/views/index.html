@@ -37,7 +37,7 @@
 
         @media (max-width: 768px) {
             #results, .progress, #blurb {
-                width: 80%;
+                width: 90%;
             }
 
             .form-group {
@@ -51,6 +51,10 @@
             .form-group button {
                 width: 100%;
             }
+            
+            #blurb p {
+                margin: 1em -1.5em;
+            }
         }
 
         @media (max-width: 992px) {
@@ -62,6 +66,10 @@
         @media (min-width: 768px) {
             .form-group input:first-child {
                 width: 25em;
+            }
+            
+            .no-flow {
+                overflow: hidden;
             }
         }
 
@@ -115,10 +123,6 @@
 
         .alert {
             border-radius: 0;
-        }
-
-        .no-flow {
-            overflow: hidden;
         }
 
         #logo {
