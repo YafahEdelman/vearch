@@ -2,7 +2,7 @@ from numpy import load
 
 from sys import path
 print "Trying without path change."
-from caffe import Classifier, set_mode_cpu, set_mode_gpu
+from caffe import Classifier, set_mode_gpu
 from caffe.io import load_image
 print "Worked without path change."
 
