@@ -63,22 +63,19 @@ function analyze(id, search_string, socket) {
     var best_image_name = ".jpeg";
     var prob = -1;
     var frames = Object.keys(data);
-    frames.sort( function(a, b){
-      return data[a]-data[b];
-    });
-    best_few = frames.slice(0, 5).map(function(i){ return parseInt(i.split(0, -5));});
 
-    if (best_few[0] === NaN){
-      socket.emit("data.malformed");
-    } else {
-      socket.emit("data.search.success", { video_id: id, best: best_few });
-    }
+    frames.sort( function(a, b){
+      return data[b]-data[a];
+    });
+    best_few = frames.slice(0, 5).map(function(i){ return i.split("/").slice(-1)[0].slice(0, -5);});
+    console.log(id, search_string, best_few);
+    socket.emit("data.search.success", { video_id: id, best: best_few });
   });
 }
 
 function get_data(folder_name, words_to_search, callback) {
   console.log(folder_name);
-  python('image_search.word_probs("' + folder_name + '", "' + words_to_search + '")', function(err, data){
+  python('image_search.word_probs("videos/' + folder_name + '", "' + words_to_search + '")', function(err, data){
     if (err) throw err;
     each_image_data = data.split("\n").slice(0, -1);
     final_data = {};
@@ -87,7 +84,7 @@ function get_data(folder_name, words_to_search, callback) {
       var split_image_data = image_data.split(" ");
       var file_name = split_image_data[0];
       var prob = parseFloat(split_image_data[1]);
-      if (prob !== NaN) {
+      if (!isNaN(prob)) {
         final_data[file_name] = prob;
       }
     }
