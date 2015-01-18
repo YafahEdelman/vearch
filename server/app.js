@@ -63,7 +63,6 @@ function analyze(id, search_string, socket) {
     var best_image_name = ".jpeg";
     var prob = -1;
     var frames = Object.keys(data);
-
     frames.sort( function(a, b){
       return data[b]-data[a];
     });
