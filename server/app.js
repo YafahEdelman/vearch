@@ -39,7 +39,7 @@ function get_video(url, search_string, socket) {
 		return;
 	}
         socket.emit("data.progress.download");
-	exec("youtube-dl --max-filesize 40m -f 18 --id https://www.youtube.com/watch?v=" + id, function () {
+	exec("youtube-dl --max-filesize 150m -f 18 --id https://www.youtube.com/watch?v=" + id, function () {
 		if (fs.existsSync(id + ".mp4")) {
 			console.log("Downloaded video.");
 			exec("mkdir videos/" + id);
