@@ -10,6 +10,6 @@ Installation
 
 ```
 sudo pip install youtube_dl
-sudo apt-get install python-dev
+sudo apt-get install python-dev libav-tools
 npm install
 ```
