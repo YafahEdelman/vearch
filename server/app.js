@@ -97,6 +97,8 @@ function get_data(folder_name, words_to_search, callback) {
 python('import image_search', function(err, data) {
   if (err) throw err;
   // get_data("../caffe/examples/images", "cat cycle", console.log);
+  console.log(data);
+  console.log(err);
   http.listen(3000, function() {
     console.log('Listening on *:3000.');
   });

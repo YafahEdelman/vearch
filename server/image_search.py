@@ -2,9 +2,12 @@ from numpy import load
 
 from sys import path
 try:
+    print "Trying without path change."
     from caffe import Classifier, set_mode_cpu, set_mode_gpu
     from caffe.io import load_image
+    print "Worked without path change."
 except:
+    print "Failed without path change, changing path."
     caffe_root = "../caffe"
     path.insert(0,  '../caffe/python')
     from caffe import Classifier, set_mode_cpu, set_mode_gpu
