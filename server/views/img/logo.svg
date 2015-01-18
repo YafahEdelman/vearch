@@ -14,7 +14,10 @@
    id="svg2"
    height="800"
    width="800"
-   sodipodi:docname="vearch.svg">
+   sodipodi:docname="vearch.svg"
+   inkscape:export-filename="/home/ben/Programming/vearch/server/views/img/favicon.ico.png"
+   inkscape:export-xdpi="14.4"
+   inkscape:export-ydpi="14.4">
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -22,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="562.10844"
-     inkscape:cy="423.10059"
+     inkscape:zoom="0.5"
+     inkscape:cx="178.53775"
+     inkscape:cy="255.88842"
      inkscape:document-units="px"
      inkscape:current-layer="svg2"
      showgrid="false"
@@ -71,8 +74,8 @@
      id="rect3595"
      width="76.367538"
      height="272.94321"
-     x="487.90463"
-     y="284.0329"
+     x="486.85587"
+     y="280.67041"
      ry="11.678514"
      transform="matrix(0.82066591,0.57140832,-0.57140832,0.82066591,0,0)"
      rx="27.686861" />
