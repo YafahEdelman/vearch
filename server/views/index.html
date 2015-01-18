@@ -196,7 +196,7 @@
             "/" + num + "' src='" + id + "/" + num  + ".jpeg' class='invisible'></a>"
           );
         });
-        if data.best.length == 0 {
+        if (data.best.length === 0) {
             $('#results').html("<h2 class='text-warning'>There were no viable results.</h2>");
         }
         $('body').removeClass("no-flow");
