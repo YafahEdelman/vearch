@@ -33,6 +33,7 @@ function get_video(url, search_string, socket) {
 		exec("mkdir videos");
 	}
 	if (fs.existsSync("videos/" + id)) {
+                socket.emit("data.progress.analyzing");
 		analyze(id, search_string, socket);
 		console.log('Video cached.')
 		return;
