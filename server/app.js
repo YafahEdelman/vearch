@@ -99,7 +99,7 @@ python('import image_search', function(err, data) {
   // get_data("../caffe/examples/images", "cat cycle", console.log);
   console.log(data);
   console.log(err);
-  http.listen(3000, function() {
+  http.listen(80, function() {
     console.log('Listening on *:3000.');
   });
 });
