@@ -32,6 +32,7 @@ def word_probs(directory, search_string, gpu_on = False, max_to_look = 50):
     #     set_mode_gpu()
     # else:
     #     set_mode_cpu()
+    print paths
     predictions = net.predict(map(load_image, paths))
 
     # ret = []
