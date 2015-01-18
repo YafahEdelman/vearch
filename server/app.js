@@ -37,13 +37,16 @@ function get_video(url, search_string, socket) {
 		console.log('Video cached.')
 		return;
 	}
+        socket.emit("data.progress.download");
 	exec("youtube-dl --max-filesize 40m -f 18 --id https://www.youtube.com/watch?v=" + id, function () {
 		if (fs.existsSync(id + ".mp4")) {
 			console.log("Downloaded video.");
 			exec("mkdir videos/" + id);
+                        socket.emit("data.progress.splitting");
 			exec("avconv -i " + id + ".mp4 -r 1 -s 640x360 -f image2 videos/" + id + "/%03d.jpeg", function() {
 				console.log("Split video into frames.");
 				exec("rm " + id + ".mp4");
+                                socket.emit("data.progress.analyzing");
 				analyze(id, search_string, socket);
         console.log('done');
 				return;
