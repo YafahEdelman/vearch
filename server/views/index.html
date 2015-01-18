@@ -21,14 +21,14 @@
             text-align: center;
         }
 
-        #results {
+        #results, .progress {
             margin: 0 auto;
             width: 40%;
             text-align: center;
         }
 
         @media (max-width: 768px) {
-            #results {
+            #results, .progress {
                 width: 80%;
             }
 
@@ -46,7 +46,7 @@
         }
 
         @media (max-width: 992px) {
-            #results {
+            #results, .progress {
                 width: 50%;
             }
         }
@@ -132,12 +132,16 @@
             <button type="submit" class="btn btn-primary">Search</button>
         </div>
       </form>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar"></div>
+      </div>
       <div id="results">
         <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-progressbar.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       function display_error(message) {
@@ -145,6 +149,8 @@
         $('#error').addClass('in-place');
       }
 
+      var progress = $('.progress .progress-bar');
+      progress.progressbar();
       var socket = io();
       var submit  = $("form");
       var youtube = $("#youtubeLink");
@@ -155,6 +161,7 @@
       });
 
       socket.on("data.submit.success", function() {
+        progress.attr('data-transitiongoal', 0).progressbar();
         youtube.val("");
         search.val("");
       });
@@ -171,7 +178,20 @@
         display_error("I'm too old for this stuff.");
       });
 
+      socket.on("data.progress.download", function() {
+        progress.attr('data-transitiongoal', 25).progressbar(); 
+      });
+
+      socket.on("data.progress.splitting", function() {
+        progress.attr('data-transitiongoal', 50).progressbar(); 
+      });
+
+      socket.on("data.progress.analyzing", function() {
+        progress.attr('data-transitiongoal', 75).progressbar(); 
+      });
+
       socket.on("data.search.success", function(data) {
+        progress.attr('data-transitiongoal', 100).progressbar();
         var id = data.video_id;
         console.log(data);
         $('#results').html('');
