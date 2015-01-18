@@ -12,7 +12,7 @@ app.use(express.static(__dirname + '/videos'));
 io.on('connection', function(socket) {
   console.log("Connection opened.");
   socket.on("data.submit", function(link, search_string) {
-    search_string = search_string.replace(/[^a-zA-Z0-9 ]/g, "");
+    search_string = search_string.replace(/[^a-zA-Z0-9_ ]/g, "");
     if (link == "" || search_string == "") {
       socket.emit("data.missing");
       return;
@@ -100,6 +100,6 @@ python('import image_search', function(err, data) {
   console.log(data);
   console.log(err);
   http.listen(3000, function() {
-    console.log('Listening on *:3000');
+    console.log('Listening on *:3000.');
   });
 });
