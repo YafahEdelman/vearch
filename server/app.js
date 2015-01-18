@@ -74,6 +74,7 @@ function analyze(id, search_string, socket) {
 function get_data(folder_name, words_to_search, callback) {
   console.log(folder_name,'image_search.word_probs("videos/' + folder_name + '", "' + words_to_search + '")');
   python('image_search.word_probs("videos/' + folder_name + '", "' + words_to_search + '")', function(err, data){
+    console.log(data)
     if (err) throw err;
     each_image_data = data.split("\n").slice(0, -1);
     console.log(err,data);
