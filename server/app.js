@@ -14,10 +14,10 @@ io.on('connection', function(socket) {
   socket.on("data.submit", function(link, search_string) {
     search_string = search_string.replace(/[^a-zA-Z0-9 ]/g, "");
     if (link == "" || search_string == "") {
-      io.emit("data.missing");
+      socket.emit("data.missing");
       return;
     }
-    io.emit("data.submit.success");
+    socket.emit("data.submit.success");
     console.log("Got link: " + link);
     console.log("Got search terms: " + search_string);
     get_video(link, search_string, socket);
@@ -72,16 +72,18 @@ function analyze(id, search_string, socket) {
 }
 
 function get_data(folder_name, words_to_search, callback) {
-  console.log(folder_name);
+  console.log(folder_name,'image_search.word_probs("videos/' + folder_name + '", "' + words_to_search + '")');
   python('image_search.word_probs("videos/' + folder_name + '", "' + words_to_search + '")', function(err, data){
     if (err) throw err;
     each_image_data = data.split("\n").slice(0, -1);
+    console.log(err,data);
     final_data = {};
     for (i in each_image_data) {
       var image_data = each_image_data[i];
       var split_image_data = image_data.split(" ");
       var file_name = split_image_data[0];
       var prob = parseFloat(split_image_data[1]);
+      console.log(i,prob,file_name);
       if (!(isNaN(prob)|| prob<0.001)) {
         final_data[file_name] = prob;
       }
