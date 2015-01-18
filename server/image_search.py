@@ -24,16 +24,16 @@ net = Classifier(MODEL_FILE, PRETRAINED,
                        raw_scale = 255,
                        image_dims = (256, 256))
 
-def word_probs(directory, search_string, gpu_on = False, max_to_look = 50):
+def word_probs(directory, search_string, gpu_on = True, max_to_look = 50):
     needles = search_string.split(" ")
     paths = [join_paths(directory, path) for path in listdir(directory)]
     paths = paths[0::int(0.5+len(paths)/50.0)]
     #print "Path amounts:",len(paths)
     # set_phase_test()
-    # if gpu_on:
-    #     set_mode_gpu()
-    # else:
-    #     set_mode_cpu()
+    if gpu_on:
+         net.set_mode_gpu()
+     else:
+         net.set_mode_cpu()
     #print paths
     if len(paths)==0:
         return
