@@ -45,6 +45,7 @@ function get_video(url, search_string, socket) {
 				console.log("Split video into frames.");
 				exec("rm " + id + ".mp4");
 				analyze(id, search_string, socket);
+        console.log('done');
 				return;
 			});
 		} else {
@@ -73,7 +74,8 @@ function analyze(id, search_string, socket) {
 }
 
 function get_data(folder_name, words_to_search, callback) {
-  python('image_search.word_probs("' + folder_name + '", "' + words_to_search + '")', function(err, data) {
+  console.log(folder_name);
+  python('image_search.word_probs("' + folder_name + '", "' + words_to_search + '")', function(err, data){
     if (err) throw err;
     each_image_data = data.split("\n").slice(0, -1);
     final_data = {};
