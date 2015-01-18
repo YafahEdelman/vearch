@@ -32,7 +32,7 @@ def word_probs(directory, search_string, gpu_on = True, max_to_look = 50):
     # set_phase_test()
     if gpu_on:
          net.set_mode_gpu()
-     else:
+    else:
          net.set_mode_cpu()
     #print paths
     if len(paths)==0:
