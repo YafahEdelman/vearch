@@ -28,12 +28,13 @@ def word_probs(directory, search_string, gpu_on = False, max_to_look = 50):
     needles = search_string.split(" ")
     paths = [join_paths(directory, path) for path in listdir(directory)]
     paths = paths[0::int(0.5+len(paths)/50.0)]
+    #print "Path amounts:",len(paths)
     # set_phase_test()
     # if gpu_on:
     #     set_mode_gpu()
     # else:
     #     set_mode_cpu()
-    print paths
+    #print paths
     if len(paths)==0:
         return
 
