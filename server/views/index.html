@@ -117,9 +117,6 @@
   <body class="no-flow">
     <div id="error">
         <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" aria-label="Close" onClick="$('#error').removeClass('in-place')">
-                <span aria-hidden="true">&times;</span>
-            </button>
             <strong>Error:</strong> <span class="error-msg">Error message. Beep boop.</span>
         </div>
     </div>
@@ -133,7 +130,7 @@
         </div>
       </form>
       <div class="progress">
-        <div class="progress-bar" role="progressbar"></div>
+        <div id="progress-bar" class="progress-bar" role="progressbar"></div>
       </div>
       <div id="results"></div>
     </div>
@@ -145,6 +142,8 @@
       function display_error(message) {
         $('#error .error-msg').text(message);
         $('#error').addClass('in-place');
+        $('#progress-bar').addClass("progress-bar-danger");
+        setTimeout(function() { $('#error').removeClass('in-place') }, 2500);
       }
 
       var progress = $('.progress .progress-bar');
@@ -155,12 +154,13 @@
       var search = $("#searchTerm");
       submit.submit(function() {
         socket.emit("data.submit", youtube.val(), search.val());
+        progress.attr("data-transitiongoal", 0).progressbar();
         $('#results').html('');
         return false;
       });
 
       socket.on("data.submit.success", function() {
-        progress.attr('data-transitiongoal', 0).progressbar();
+        $('#progress-bar').removeClass("progress-bar-danger");
         youtube.val("");
         search.val("");
       });
@@ -174,19 +174,19 @@
       });
 
       socket.on("data.progress.download", function() {
-        progress.attr('data-transitiongoal', 25).progressbar(); 
+        progress.attr("data-transitiongoal", 25).progressbar(); 
       });
 
       socket.on("data.progress.splitting", function() {
-        progress.attr('data-transitiongoal', 50).progressbar(); 
+        progress.attr("data-transitiongoal", 50).progressbar(); 
       });
 
       socket.on("data.progress.analyzing", function() {
-        progress.attr('data-transitiongoal', 75).progressbar(); 
+        progress.attr("data-transitiongoal", 75).progressbar(); 
       });
 
       socket.on("data.search.success", function(data) {
-        progress.attr('data-transitiongoal', 100).progressbar();
+        progress.attr("data-transitiongoal", 100).progressbar();
         var id = data.video_id;
         console.log(data);
         $('#results').html('');
