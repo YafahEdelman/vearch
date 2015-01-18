@@ -7,6 +7,7 @@ var exec   = require('child_process').exec;
 var fs = require('fs');
 
 app.use(express.static(__dirname + '/views'));
+app.use(express.static(__dirname + '/videos'));
 
 io.on('connection', function(socket) {
   console.log("Connection opened.");
@@ -66,13 +67,13 @@ function analyze(id, search_string, socket) {
     if (best_few[0] === NaN){
       socket.emit("data.malformed");
     } else {
-      socket.emit("video_searched", {video_id: id, best: best_few});
+      socket.emit("data.search.success", { video_id: id, best: best_few });
     }
   });
 }
 
 function get_data(folder_name, words_to_search, callback) {
-  python('image_search.word_probs("' + folder_name + '", "' + words_to_search + '")', function(err, data){
+  python('image_search.word_probs("' + folder_name + '", "' + words_to_search + '")', function(err, data) {
     if (err) throw err;
     each_image_data = data.split("\n").slice(0, -1);
     final_data = {};
@@ -81,13 +82,7 @@ function get_data(folder_name, words_to_search, callback) {
       var split_image_data = image_data.split(" ");
       var file_name = split_image_data[0];
       var prob = parseFloat(split_image_data[1]);
-      if (prob === NaN ) {
-        /* Some weird "START COMMAND\n" stuff was at the start of the data
-        sometimes, so I'll just ignore the data when it's bad rather than
-        throwing an error */
-
-        // throw "Probability is not a number.";
-      } else {
+      if (prob !== NaN) {
         final_data[file_name] = prob;
       }
     }

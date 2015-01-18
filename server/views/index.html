@@ -29,7 +29,7 @@
 
         @media (max-width: 768px) {
             #results {
-                width: 70%;
+                width: 80%;
             }
 
             .form-group {
@@ -92,7 +92,7 @@
 
         #error {
             position: relative;
-            top: -4em;
+            top: -5em;
             transition: all 1s ease;
         }
 
@@ -104,9 +104,17 @@
         .centered {
             text-align: center;
         }
+
+        .alert {
+            border-radius: 0;
+        }
+
+        .no-flow {
+            overflow: hidden;
+        }
     </style>
   </head>
-  <body>
+  <body class="no-flow">
     <div id="error">
         <div class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" class="close" aria-label="Close" onClick="$('#error').removeClass('in-place')">
@@ -126,17 +134,10 @@
       </form>
       <div id="results">
         <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
-        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
-        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
-        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
-        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
-        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
-        <img alt="" src="http://iwritealot.com/wp-content/uploads/2011/01/Mila-Kunis-07.jpg" class="invisible">
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script>$('#results img').removeClass('invisible')</script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       function display_error(message) {
@@ -170,9 +171,18 @@
         display_error("I'm too old for this stuff.");
       });
 
-      socket.on("video_searched", function(data) {
-        console.log(data);
-      })
+      socket.on("data.search.success", function(data) {
+        var id = data.video_id;
+        $('#results').html('');
+        data.best.map(function (num) {
+          $('#results').html($('#results').html() + 
+            "<a href='https://www.youtube.com/watch?v=" + id + "#" + num + "s'><img alt='" + id + 
+            "/" + num + "' src='" + id + "/" + num  + ".jpeg' class='invisible'></a>"
+          );
+        });
+        $('body').removeClass("no-flow");
+        $('#results img').removeClass("invisible");
+      });
     </script>
   </body>
 </html>
