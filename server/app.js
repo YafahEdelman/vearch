@@ -82,7 +82,7 @@ function get_data(folder_name, words_to_search, callback) {
       var split_image_data = image_data.split(" ");
       var file_name = split_image_data[0];
       var prob = parseFloat(split_image_data[1]);
-      if (!(isNaN(prob)|| prob===0)) {
+      if (!(isNaN(prob)|| prob<0.0001)) {
         final_data[file_name] = prob;
       }
     }
