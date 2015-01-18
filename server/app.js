@@ -75,17 +75,14 @@ function analyze(id, search_string, socket) {
 function get_data(folder_name, words_to_search, callback) {
   console.log(folder_name,'image_search.word_probs("videos/' + folder_name + '", "' + words_to_search + '")');
   python('image_search.word_probs("videos/' + folder_name + '", "' + words_to_search + '")', function(err, data){
-    console.log(data)
     if (err) throw err;
     each_image_data = data.split("\n").slice(0, -1);
-    console.log(err,data);
     final_data = {};
     for (i in each_image_data) {
       var image_data = each_image_data[i];
       var split_image_data = image_data.split(" ");
       var file_name = split_image_data[0];
       var prob = parseFloat(split_image_data[1]);
-      console.log(i,prob,file_name);
       if (!(isNaN(prob)|| prob<0.001)) {
         final_data[file_name] = prob;
       }
