@@ -21,14 +21,17 @@
             text-align: center;
         }
 
-        #results, .progress {
-            margin: 0 auto;
-            width: 40%;
+        #results {
             text-align: center;
         }
 
+        #results, .progress, #blurb {
+            margin: 0 auto;
+            width: 40%;
+        }
+
         @media (max-width: 768px) {
-            #results, .progress {
+            #results, .progress, #blurb {
                 width: 80%;
             }
 
@@ -46,7 +49,7 @@
         }
 
         @media (max-width: 992px) {
-            #results, .progress {
+            #results, .progress, #blurb {
                 width: 50%;
             }
         }
@@ -116,6 +119,16 @@
         #logo {
             width: 2em;
         }
+
+        #blurb.fade {
+            -webkit-transition: opacity 0.5s linear;
+            -o-transition: opacity 0.5s linear;
+            transition: opacity 0.5s linear;
+        }
+
+        #blurb p {
+            margin-top: 1em;
+        }
     </style>
   </head>
   <body class="no-flow">
@@ -130,11 +143,14 @@
         <div class="form-group">
             <input type="text" class="form-control" id="youtubeLink" placeholder="YouTube Link">
             <input type="text" class="form-control" id="searchTerm" placeholder="Search Term">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button id="submit" type="submit" class="btn btn-primary">Search</button>
         </div>
       </form>
       <div class="progress">
         <div id="progress-bar" class="progress-bar" role="progressbar"></div>
+      </div>
+      <div id="blurb">
+        <p>Here's some text.</p>
       </div>
       <div id="results"></div>
     </div>
@@ -147,6 +163,7 @@
         $('#error .error-msg').text(message);
         $('#error').addClass('in-place');
         $('#progress-bar').addClass("progress-bar-danger");
+        $('#submit').removeClass("disabled");
         setTimeout(function() { $('#error').removeClass('in-place') }, 2500);
       }
 
@@ -160,10 +177,13 @@
         socket.emit("data.submit", youtube.val(), search.val());
         progress.attr("data-transitiongoal", 0).progressbar();
         $('#results').html('');
+        $('#blurb').addClass('fade');
+        setTimeout(function() { $('#blurb').html('') }, 500);
         return false;
       });
 
       socket.on("data.submit.success", function() {
+        $('#submit').addClass("disabled");
         $('#progress-bar').removeClass("progress-bar-danger");
         youtube.val("");
         search.val("");
@@ -205,6 +225,7 @@
         }
         $('body').removeClass("no-flow");
         $('#results img').removeClass("invisible");
+        $('#submit').removeClass("disabled");
       });
     </script>
   </body>
