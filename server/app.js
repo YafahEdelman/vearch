@@ -76,7 +76,7 @@ function get_data(folder_name, words_to_search, callback) {
   console.log(folder_name,'image_search.word_probs("videos/' + folder_name + '", "' + words_to_search + '")');
   python('image_search.word_probs("videos/' + folder_name + '", "' + words_to_search + '")', function(err, data){
     console.log(data)
-  //  if (err) throw err;
+    if (err) throw err;
     each_image_data = data.split("\n").slice(0, -1);
     console.log(err,data);
     final_data = {};
@@ -95,11 +95,11 @@ function get_data(folder_name, words_to_search, callback) {
 }
 
 python('import image_search', function(err, data) {
-//  if (err) throw err;
+  if (err) throw err;
   // get_data("../caffe/examples/images", "cat cycle", console.log);
   console.log(data);
   console.log(err);
-  http.listen(80, function() {
+  http.listen(3000, function() {
     console.log('Listening on *:3000.');
   });
 });
